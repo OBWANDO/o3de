@@ -21,10 +21,10 @@ namespace AZ::RHI
         return m_drawItemCount;
     }
 
-    DrawItemProperties DrawPacket::GetDrawItem(size_t index) const
+    SingleDeviceDrawItemProperties DrawPacket::GetDrawItem(size_t index) const
     {
         AZ_Assert(index < GetDrawItemCount(), "Out of bounds array access!");
-        return DrawItemProperties(&m_drawItems[index], m_drawItemSortKeys[index], m_drawFilterMasks[index]);
+        return SingleDeviceDrawItemProperties(&m_drawItems[index], m_drawItemSortKeys[index], m_drawFilterMasks[index]);
     }
 
     DrawListTag DrawPacket::GetDrawListTag(size_t index) const
@@ -66,10 +66,10 @@ namespace AZ::RHI
     {
         for (size_t drawItemIndex = 0; drawItemIndex < m_drawItemCount; ++drawItemIndex)
         {
-            const DrawItem* drawItemConst = m_drawItems + drawItemIndex;
+            const SingleDeviceDrawItem* drawItemConst = m_drawItems + drawItemIndex;
             // Need to mutate for mesh instancing.
             // This should be used after cloning the draw packet from DrawPacketBuilder.
-            DrawItem* drawItem = const_cast<DrawItem*>(drawItemConst);
+            SingleDeviceDrawItem* drawItem = const_cast<SingleDeviceDrawItem*>(drawItemConst);
             drawItem->m_arguments.m_indexed.m_instanceCount = instanceCount;
         }
     }
